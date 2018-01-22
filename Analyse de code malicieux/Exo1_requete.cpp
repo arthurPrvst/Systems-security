@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <wininet.h>
+#include <wininet.h> //API qui permet à d'accéder à internet avec notamment HTTP, FTP ...
 #include "wininet.h"
 #include "fs.h"
 #include "httptools.h"

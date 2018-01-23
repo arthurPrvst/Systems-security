@@ -57,7 +57,6 @@
     }, 500); //attend 500 millisecondes et éxecute la fonction
 
 /*
-Génère un nouvelle URL toutes les demi-journées. Ce  Un URL du type "http://xxx/runforestrun?sid=botnet" est créé. Il sert de source pour une iframe qui est ajouté au DOM de la page web infectée.
-Les noms de domaine "pseudo-aléatoires" sont prédictible à l'avance (et facilement par les auteurs du code). Les auteurs peuvent donc acheter les domaines à l'avance pour que leur code malveillant soit toujours accessible, et que leur site ne soit pas bloqué par les navigateur (puisqu'il change toute les 12h). Néanmoins les UTL sotn facilement prédictible, donc bloquable à l'avance.
+Ce code javascript à pour but d’infecter une page web à l’aide d’une iframe que peut potentiellement servir de vecteur pour exécuter du code malveillant. En effet, le script génère un nouvelle URL toutes les demi-journées. Un URL de cette forme : "http://xxx/runforestrun?sid=botnet" est créé. Il sert de source pour une iframe qui est ajoutée au DOM de la page web infectée. Les noms de domaine "pseudo-aléatoires" sont prédictible à l'avance (et facilement par les auteurs du code). Les auteurs peuvent donc acheter les domaines à l'avance, pour que leur code malveillant soit toujours accessible, et que leur site ne soit pas bloqué par les navigateurs (puisque le nom de domaine associé change toutes les 12h). Néanmoins les URL sont facilement prédictible et donc blocable à l'avance.
 */
 

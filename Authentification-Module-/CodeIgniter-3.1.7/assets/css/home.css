@@ -1,0 +1,78 @@
+ html {
+    font-family: Quasiparticles, Papercraft, Calibri, Trebuchet, sans-serif;
+ }
+
+body {
+   background-color:#555;
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+
+main {
+   flex: 1 0 auto;
+}
+
+.logo {
+    display: inline-block;
+    height: 100%;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
+/* ----------- NAVBAR ------- */
+nav /* makes the navbar on top */
+{
+    position: relative; /* Allow to be on top (even if there is a fullscreen slider) */
+    z-index: 1000; /* Allow to be on top (even if there is a fullscreen slider) */
+	background-color: #e57373 ;
+    opacity: 0.5;
+}
+
+.navbar-fixed {position: absolute;z-index:999999999;}
+/* ----------- END NAVBAR ------- */
+
+
+.input-field input[type=date]:focus + label,
+.input-field input[type=text]:focus + label,
+.input-field input[type=email]:focus + label,
+.input-field input[type=password]:focus + label {color: #e91e63;}
+
+.input-field input[type=date]:focus,
+.input-field input[type=text]:focus,
+.input-field input[type=email]:focus,
+.input-field input[type=password]:focus {border-bottom: 2px solid #e91e63; box-shadow: none;}
+
+input[type="password"]::-webkit-input-placeholder {
+color: red !important;
+}
+ 
+input[type="password"]:-moz-placeholder { /* Firefox 18- */
+color: red !important;  
+}
+ 
+input[type="password"]::-moz-placeholder {  /* Firefox 19+ */
+color: red !important;  
+}
+ 
+input[type="password"]:-ms-input-placeholder {  
+color: red !important;  
+}
+
+
+/* ----------- HANDLE FULLSCREEN SLIDER ------- */
+#content {  /* makes the content below fullscreen slider */
+position: relative;
+top : 89vh;
+margin-top: 0px;
+}
+/* ----------- END HANDLE FULLSCREEN SLIDER ------- */
+
+
+/* ----------- MODAL ------- */
+.modal { 
+	width: 30% !important ;
+}
+
+/* ----------- END MODAL ------- */
